@@ -25,20 +25,28 @@ export default function Home() {
     setShowWelcome(false)
   }
 
-  if (showWelcome) {
-    return <WelcomePage onEnter={handleEnter} />
+  const handleReturnToWelcome = () => {
+    sessionStorage.removeItem("hasVisited")
+    setShowWelcome(true)
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }
+  // </CHANGE>
 
   return (
     <ThemeProvider>
-      <main className="min-h-screen bg-background transition-colors duration-300">
-        <Navigation />
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
+      {showWelcome ? (
+        <WelcomePage onEnter={handleEnter} />
+      ) : (
+        <main className="min-h-screen bg-background transition-colors duration-300">
+          <Navigation />
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Contact onReturnToWelcome={handleReturnToWelcome} />
+        </main>
+      )}
     </ThemeProvider>
+    // </CHANGE>
   )
 }
